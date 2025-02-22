@@ -58,18 +58,16 @@ def cleanup_old_sessions():
         del conversations[session_id]
 
 def extract_text_from_pdf():
-    """Extract text content from PDF stored in cloud"""
-    pdf_url = os.getenv("PDF_URL")
-    if not pdf_url:
-        raise ValueError("No PDF_URL found in environment")
-        
-    # Download PDF from cloud storage
-    response = requests.get(pdf_url)
-    pdf_reader = PyPDF2.PdfReader(BytesIO(response.content))
-    text = ""
-    for page in pdf_reader.pages:
-        text += page.extract_text()
-    return text
+    """Extract text content from PDF file"""
+    try:
+        text = ""
+        with open("Kawsar-Resume.pdf", 'rb') as file:
+            pdf_reader = PyPDF2.PdfReader(file)
+            for page in pdf_reader.pages:
+                text += page.extract_text()
+        return text
+    except Exception as e:
+        raise ValueError(f"Error reading PDF file: {str(e)}")
 
 def create_context(resume_text, conversation_history=None):
     """Create a context prompt for the model"""
