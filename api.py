@@ -143,14 +143,3 @@ async def end_session(session_id: str):
         del conversations[session_id]
         return {"message": "Session ended successfully"}
     raise HTTPException(status_code=404, detail="Session not found")
-
-# Before deploying, add PDF content to Heroku config:
-# First convert your PDF to base64
-with open("Kawsar-Resume.pdf", "rb") as f:
-    pdf_base64 = base64.b64encode(f.read()).decode()
-
-# Then set it in Heroku
-# heroku config:set PDF_CONTENT="<your-base64-pdf-content>"
-
-# Then set PDF_URL in Heroku:
-# heroku config:set PDF_URL="https://your-cloud-storage-url/Kawsar-Resume.pdf"
